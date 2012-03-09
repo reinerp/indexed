@@ -1,15 +1,15 @@
 -----------------------------------------------------------------------------
 -- |
--- Module      :  Control.Functor.Indexed
+-- Module      :  Data.Functor.Indexed
 -- Copyright   :  (C) 2008 Edward Kmett
 -- License     :  BSD-style (see the file LICENSE)
 --
--- Maintainer  :  Edward Kmett <ekmett@gmail.com>
+-- Maintainer  :  Reiner Pope <reiner.pope@gmail.com>
 -- Stability   :  experimental
 -- Portability :  portable
 --
 ----------------------------------------------------------------------------
-module Control.Functor.Indexed 
+module Data.Functor.Indexed 
 	( IxFunctor(..)
 	, IxCopointed(..)
 	, IxPointed(..)

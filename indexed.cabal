@@ -3,13 +3,17 @@
 -- http://www.haskell.org/cabal/release/cabal-latest/doc/users-guide/authors.html#pkg-descr.
 Name:                indexed
 Version:             0.1
-Synopsis:            Indexed monads, functors, comonads
--- Description:         
+Synopsis:            Haskell98 indexed functors, monads, comonads
+Description:         Haskell98 indexed functors, monads, comonads
 License:             BSD3
 License-file:        LICENSE
 Author:              Edward A. Kmett
 Maintainer:          Reiner Pope <reiner.pope@gmail.com>
--- Copyright:           
+Copyright:           
+    Copyright (C) 2012 Reiner Pope,
+    Copyright (C) 2008 Edward A. Kmett, 
+    Copyright (C) 2004--2008 Dave Menendez, 
+    Copyright (C) 2007 Iavor Diatchki
 Category:            Control
 Build-type:          Simple
 -- Extra-source-files:  
@@ -17,17 +21,18 @@ Cabal-version:       >=1.2
 
 Library
   Exposed-modules:     
-    Control.Functor.Indexed, 
+    Data.Functor.Indexed, 
     Control.Monad.Indexed, 
-    Control.Monad.Indexed.Cont, 
+--    Control.Monad.Indexed.Cont, 
     Control.Monad.Indexed.Fix, 
-    Control.Monad.Indexed.State, 
+--    Control.Monad.Indexed.State, 
     Control.Monad.Indexed.Trans
     Control.Comonad.Indexed
  Build-depends:
-    base,
-    mtl,
-    pointed,
-    bifunctors
+    base
+ ghc-options:
+    -Wall
+    -Werror
+-- Extensions:
   -- Other-modules:       
   -- Build-tools:         
