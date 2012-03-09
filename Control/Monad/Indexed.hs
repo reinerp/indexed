@@ -20,7 +20,7 @@ module Control.Monad.Indexed
 	, iapIxMonad
 	) where
 
-import Control.Functor.Indexed
+import Data.Functor.Indexed
 
 class IxApplicative m => IxMonad m where
 	ibind :: (a -> m j k b) -> m i j a -> m i k b

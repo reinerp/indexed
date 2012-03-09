@@ -16,7 +16,7 @@ module Control.Comonad.Indexed
 	, iduplicate
 	) where
 
-import Control.Functor.Indexed
+import Data.Functor.Indexed
 
 class IxCopointed w => IxComonad w where
 	iextend :: (w j k a -> b) -> w i k a -> w i j b
