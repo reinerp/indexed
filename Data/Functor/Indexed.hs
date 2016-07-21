@@ -9,24 +9,24 @@
 -- Portability :  portable
 --
 ----------------------------------------------------------------------------
-module Data.Functor.Indexed 
-	( IxFunctor(..)
-	, IxCopointed(..)
-	, IxPointed(..)
-	, IxApplicative(..)
-	) where
+module Data.Functor.Indexed
+  ( IxFunctor(..)
+  , IxCopointed(..)
+  , IxPointed(..)
+  , IxApplicative(..)
+  ) where
 
 class IxFunctor f where
-	imap :: (a -> b) -> f j k a -> f j k b
+  imap :: (a -> b) -> f j k a -> f j k b
 
 class IxPointed m => IxApplicative m where
-	iap :: m i j (a -> b) -> m j k a -> m i k b
+  iap :: m i j (a -> b) -> m j k a -> m i k b
 
 class IxFunctor m => IxPointed m where
-        ireturn :: a -> m i i a
+  ireturn :: a -> m i i a
 
 class IxFunctor w => IxCopointed w where
-	iextract :: w i i a -> a
+  iextract :: w i i a -> a
 
 {-# RULES
 "iextract/ireturn" iextract . ireturn = id
