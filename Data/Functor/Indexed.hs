@@ -14,11 +14,18 @@ module Data.Functor.Indexed
   , IxCopointed(..)
   , IxPointed(..)
   , IxApplicative(..)
-  , (<<*>>), (<<*), (*>>)
+  , (<<$>>), (<<*>>), (<<*), (*>>)
   ) where
 
 class IxFunctor f where
   imap :: (a -> b) -> f j k a -> f j k b
+
+-- | Infix alias of 'imap'.  Or, ('<$>') for 'IxFunctor'.  Should be
+-- interchangeable with ('<$>'), but requires 'IxFunctor' constraints instead
+-- of (possibly many) 'Functor' constraints.
+infixl 4 <<$>>
+(<<$>>) :: IxFunctor f => (a -> b) -> f j k a -> f j k b
+(<<$>>) = imap
 
 class IxPointed m => IxApplicative m where
   iap :: m i j (a -> b) -> m j k a -> m i k b
