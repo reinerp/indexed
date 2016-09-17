@@ -13,7 +13,7 @@ Copyright:
     Copyright (C) 2007 Iavor Diatchki
 Category:            Control
 Build-type:          Simple
-Cabal-version:       >=1.6
+Cabal-version:       >=1.10
 homepage:            https://github.com/reinerp/indexed
 bug-reports:         https://github.com/reinerp/indexed/issues
 
@@ -28,6 +28,7 @@ Library
     Control.Monad.Indexed.Fix, 
     Control.Monad.Indexed.Trans
     Control.Comonad.Indexed
+ default-language: Haskell98
  if impl(ghc >= 7.5)
    default-extensions: PolyKinds
  Build-depends:
