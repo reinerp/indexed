@@ -50,7 +50,3 @@ class IxFunctor m => IxPointed m where
 
 class IxFunctor w => IxCopointed w where
   iextract :: w i i a -> a
-
-{-# RULES
-"iextract/ireturn" iextract . ireturn = id
- #-}
