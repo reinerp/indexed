@@ -28,6 +28,8 @@ Library
     Control.Monad.Indexed.Fix, 
     Control.Monad.Indexed.Trans
     Control.Comonad.Indexed
+ if impl(ghc >= 7.5)
+   default-extensions: PolyKinds
  Build-depends:
     base < 5
  ghc-options:
