@@ -10,11 +10,11 @@
 --
 ----------------------------------------------------------------------------
 module Control.Monad.Indexed.Fix
-	( IxMonadFix(..)
-	) where
+  ( IxMonadFix(..)
+  ) where
 
 import Control.Monad.Indexed
 
 class IxMonad m => IxMonadFix m where
-	imfix :: (a -> m i i a) -> m i i a
+  imfix :: (a -> m i i a) -> m i i a
 

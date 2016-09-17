@@ -6,20 +6,20 @@
 --
 -- Maintainer  :  Reiner Pope <reiner.pope@gmail.com
 -- Stability   :  experimental
--- Portability :  portable 
+-- Portability :  portable
 --
 ----------------------------------------------------------------------------
-module Control.Comonad.Indexed 
-	( IxFunctor(..)
-	, IxCopointed(..)
-	, IxComonad(..)
-	, iduplicate
-	) where
+module Control.Comonad.Indexed
+  ( IxFunctor(..)
+  , IxCopointed(..)
+  , IxComonad(..)
+  , iduplicate
+  ) where
 
 import Data.Functor.Indexed
 
 class IxCopointed w => IxComonad w where
-	iextend :: (w j k a -> b) -> w i k a -> w i j b
+  iextend :: (w j k a -> b) -> w i k a -> w i j b
 
 iduplicate :: IxComonad w => w i k a -> w i j (w j k a)
 iduplicate = iextend id
