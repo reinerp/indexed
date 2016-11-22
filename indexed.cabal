@@ -24,8 +24,9 @@ source-repository head
 Library
   Exposed-modules:     
     Data.Functor.Indexed, 
-    Control.Monad.Indexed, 
+    Control.Monad.Indexed,
     Control.Monad.Indexed.Fix, 
+    Control.Monad.Indexed.Syntax,
     Control.Monad.Indexed.Trans
     Control.Comonad.Indexed
  default-language: Haskell98
