@@ -1,52 +1,49 @@
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Data.Functor.Indexed
--- Copyright   :  (C) 2008 Edward Kmett
 -- License     :  BSD-style (see the file LICENSE)
 --
--- Maintainer  :  Reiner Pope <reiner.pope@gmail.com>
+-- Maintainer  :  Alexis Williams <alexis@typedr.at>
 -- Stability   :  experimental
--- Portability :  portable
 --
 ----------------------------------------------------------------------------
 module Data.Functor.Indexed
-  ( IxFunctor(..)
-  , IxCopointed(..)
-  , IxPointed(..)
-  , IxApplicative(..)
-  , (<<$>>), (<<*>>), (<<*), (*>>)
-  ) where
+    ( IxFunctor, imap, (<<$>>), (<<$), ($>>), ivoid ) where
 
-class IxFunctor f where
-  imap :: (a -> b) -> f j k a -> f j k b
+import Data.Functor
+import Data.Kind    ( Type )
 
--- | Infix alias of 'imap'.  Or, ('<$>') for 'IxFunctor'.  Should be
--- interchangeable with ('<$>'), but requires 'IxFunctor' constraints instead
--- of (possibly many) 'Functor' constraints.
+-- | An endofunctor on Hask ⨯ kᵏ sometimes precomposed with — → — ⨯ id_kᵏ.
+--
+--   At times, we elide the difference between an actual endofunctor and a
+--   functor from Hask to Hask ⨯ kᵏ, because endomorphisms on k might not have
+--   term-level witnesses, and so we assume (for common sense's sake) that when
+--   we need to conjure one from thin air that it will always be id_kᵏ.
+class (forall i j. Functor (f i j)) => IxFunctor (f :: k -> k -> Type -> Type)
+
+-- | 'fmap' for 'IxFunctor's.
+imap :: (IxFunctor f) => (a -> b) -> f i j a -> f i j b
+imap = fmap
+{-# INLINE imap #-}
+
+-- | ('<$') for 'IxFunctor's.
+infixl 4 <<$
+(<<$) :: (IxFunctor f) => a -> f i j b -> f i j a
+(<<$) = (<$)
+{-# INLINE (<<$) #-}
+
+infixl 4 $>>
+($>>) :: (IxFunctor f) => f i j a -> b -> f i j b
+($>>) = ($>)
+{-# INLINE ($>>) #-}
+
+-- | Infix alias of 'imap', or ('<$>') for 'IxFunctor's. Interchangeable with ('<$>').
 infixl 4 <<$>>
-(<<$>>) :: IxFunctor f => (a -> b) -> f j k a -> f j k b
+(<<$>>) :: IxFunctor f => (a -> b) -> f i j a -> f i j b
 (<<$>>) = imap
+{-# INLINE (<<$>>) #-}
 
-class IxPointed m => IxApplicative m where
-  iap :: m i j (a -> b) -> m j k a -> m i k b
-
--- | Infix alias of 'iap'.  Or, ('<*>') for 'IxApplicative'.
-infixl 4 <<*>>
-(<<*>>) :: IxApplicative f => f i j (a -> b) -> f j k a -> f i k b
-(<<*>>) = iap
-
--- | ('Control.Applicative.<*') for 'IxApplicative'.
-infixl 4 <<*
-(<<*) :: IxApplicative f => f i j a -> f j k b -> f i k a
-(<<*) a b = imap const a <<*>> b
-
--- | ('Control.Applicative.*>') for 'IxApplicative'.
-infixl 4 *>>
-(*>>) :: IxApplicative f => f i j a -> f j k b -> f i k b
-(*>>) a b = imap (const id) a <<*>> b
-
-class IxFunctor m => IxPointed m where
-  ireturn :: a -> m i i a
-
-class IxFunctor w => IxCopointed w where
-  iextract :: w i i a -> a
+-- | 'ivoid' for 'IxFunctor's.
+ivoid :: (IxFunctor f) => f i j a -> f i j ()
+ivoid = void
+{-# INLINE ivoid #-}

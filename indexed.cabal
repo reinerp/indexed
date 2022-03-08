@@ -1,38 +1,55 @@
-Name:                indexed
-Version:             0.1.3
-Synopsis:            Haskell98 indexed functors, monads, comonads
-Description:         Haskell98 indexed functors, monads, comonads
-License:             BSD3
-License-file:        LICENSE
-Author:              Edward A. Kmett
-Maintainer:          Reiner Pope <reiner.pope@gmail.com>
-Copyright:           
+cabal-version:       2.4
+name:                indexed
+version:             0.2.0
+synopsis:            Indexed functors, monads, comonads
+description:         Indexed functors, monads, comonads
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Edward A. Kmett
+maintainer:          Alexis Williams <alexis@typedr.at>
+copyright:
+    Copyright (C) 2022 Alexis Williams,
     Copyright (C) 2012 Reiner Pope,
     Copyright (C) 2008 Edward A. Kmett, 
     Copyright (C) 2004--2008 Dave Menendez, 
     Copyright (C) 2007 Iavor Diatchki
-Category:            Control
-Build-type:          Simple
-Cabal-version:       >=1.10
+category:            Control
+build-type:          Simple
 homepage:            https://github.com/reinerp/indexed
 bug-reports:         https://github.com/reinerp/indexed/issues
 
 source-repository head
-  type:                 git
-  location:             git://github.com/reinerp/indexed.git
+    type:              git
+    location:          git://github.com/reinerp/indexed.git
 
-Library
-  Exposed-modules:     
-    Data.Functor.Indexed, 
-    Control.Monad.Indexed, 
-    Control.Monad.Indexed.Fix, 
-    Control.Monad.Indexed.Trans
-    Control.Comonad.Indexed
- default-language: Haskell98
- if impl(ghc >= 7.5)
-   default-extensions: PolyKinds
- Build-depends:
-    base < 5
- ghc-options:
-    -Wall
+library
+    exposed-modules:   Control.Applicative.Indexed
+                     , Control.Comonad.Indexed
+                     , Control.Monad.Indexed
+                     , Control.Monad.Indexed.Syntax
+                     , Control.Monad.State.Indexed.Class
+                     , Control.Monad.State.Indexed.Strict
+                     , Control.Monad.Trans.Indexed
+                     , Data.Functor.Indexed
+                     , Data.Functor.Indexed.WrappedIx
 
+   default-language:   Haskell2010
+   default-extensions: DeriveFunctor
+                     , DerivingVia
+                     , FlexibleContexts
+                     , FlexibleInstances
+                     , FunctionalDependencies
+                     , GeneralizedNewtypeDeriving
+                     , MultiParamTypeClasses
+                     , PolyKinds
+                     , QuantifiedConstraints
+                     , RankNTypes
+                     , ScopedTypeVariables
+                     , StandaloneDeriving
+                     , TypeSynonymInstances
+
+   build-depends:      base    >= 4.12  && < 5
+                     , comonad >= 5     && < 6
+                     , mtl     == 2.2.*
+
+   ghc-options:        -Wall

@@ -1,47 +1,45 @@
 -----------------------------------------------------------------------------
 -- |
 -- Module      :  Control.Monad.Indexed
--- Copyright   :  (C) 2008 Edward Kmett
 -- License     :  BSD-style (see the file LICENSE)
 --
--- Maintainer  :  Reiner Pope <reiner.pope@gmail.com>
+-- Maintainer  :  Alexis Williams <alexis@typedr.at>
 -- Stability   :  experimental
--- Portability :  portable
 --
 ----------------------------------------------------------------------------
-module Control.Monad.Indexed
-  ( IxFunctor(..)
-  , IxPointed(..)
-  , IxApplicative(..)
-  , IxMonad(..)
-  , IxMonadZero(..)
-  , IxMonadPlus(..)
-  , ijoin, (>>>=), (=<<<)
-  , iapIxMonad
-  ) where
+module Control.Monad.Indexed 
+    ( -- * @IxBind@
+      IxBind(..)
+    , (-<<<)
+    , ijoin
+      -- * @IxMonad@
+    , IxMonad
+    , (>>>=), (=<<<)
+    ) where
 
-import Data.Functor.Indexed
+import Control.Applicative.Indexed
 
-class IxApplicative m => IxMonad m where
-  ibind :: (a -> m j k b) -> m i j a -> m i k b
+class IxApply m => IxBind m where
+    infixl 1 >>>-
+    (>>>-) :: m i j a -> (a -> m j k b) -> m i k b
 
-ijoin :: IxMonad m => m i j (m j k a) -> m i k a
-ijoin = ibind id
+infixr 1 -<<<
+(-<<<) :: (IxBind m) => (a -> m j k b) -> m i j a -> m i k b
+(-<<<) = flip (>>>-)
+{-# INLINE (-<<<) #-}
+
+ijoin :: (IxBind m) => m i j (m j k a) -> m i k a
+ijoin = (>>>- id)
+{-# INLINE ijoin #-}
+
+class (IxBind m, IxApplicative m, forall i. Monad (m i i)) => IxMonad m
+
+infixl 1 >>>=
+(>>>=) :: (IxMonad m) => m i j a -> (a -> m j k b) -> m i k b
+(>>>=) = (>>>-)
+{-# INLINE (>>>=) #-}
 
 infixr 1 =<<<
-infixl 1 >>>=
-
-(>>>=) :: IxMonad m => m i j a -> (a -> m j k b) -> m i k b
-m >>>= k = ibind k m
-
-(=<<<) :: IxMonad m => (a -> m j k b) -> m i j a -> m i k b
-(=<<<) = ibind
-
-iapIxMonad :: IxMonad m => m i j (a -> b) -> m j k a -> m i k b
-iapIxMonad f x = f >>>= \ f' -> x >>>= \x' -> ireturn (f' x')
-
-class IxMonad m => IxMonadZero m where
-  imzero :: m i j a
-
-class IxMonadZero m => IxMonadPlus m where
-  implus :: m i j a -> m i j a -> m i j a
+(=<<<) :: (IxMonad m) => (a -> m j k b) -> m i j a -> m i k b
+(=<<<) = (-<<<)
+{-# INLINE (=<<<) #-}
